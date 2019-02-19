@@ -1,11 +1,11 @@
 # tb
 
 ```python
-import tb
+from tb import TB
 
 # Initialize tb with the per-epoch length and
 # the path where TensorBoard logs will be stored.
-tb.init(len(loader), '/tmp/tb/run-20190219')
+tb = TB(len(loader), '/tmp/tb/run-20190219')
 
 for epoch in range(1000):
     # Write logs per epoch.

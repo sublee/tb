@@ -1,10 +1,10 @@
 """Makes 1 epoch fit to 1k steps in TensorBoard::
 
-    import tb
+    from tb import TB
 
     # Initialize tb with the per-epoch length and
     # the path where TensorBoard logs will be stored.
-    tb.init(len(loader), '/tmp/tb/run-20190219')
+    tb = TB(len(loader), '/tmp/tb/run-20190219')
 
     for epoch in range(1000):
         # Write logs per epoch.
@@ -21,7 +21,6 @@
                 w.scalar('loss', loss.item())
 
 """
-import sys
 from typing import Optional, Union
 
 from tensorboardX import SummaryWriter
@@ -35,9 +34,6 @@ class Writer:
         self.writer = writer
         self.step = step
 
-    def __repr__(self):
-        return 'tb@%d' % self.step
-
     def scalar(self, name: str, value: float):
         """Writes a scalar log."""
         if self.writer is None:
@@ -47,20 +43,9 @@ class Writer:
 
 
 class TB:
-    """The global object of the tb module. When you import :mod:`tb`, you will
-    get an instance of :class:`TB`.
-    """
+    """..."""
 
-    def __repr__(self):
-        return 'tb'
-
-    def __init__(self):
-        self.writer = None
-        self.epoch_length = None
-        self.last_step = -1
-
-    def init(self, epoch_length: int, path: str = None):
-        """Initiailizes the tb module."""
+    def __init__(self, epoch_length: int, path: str = None):
         if path is None:
             self.writer = None
         else:
@@ -92,7 +77,3 @@ class TB:
             self.last_step = step
 
         return Writer(self.writer, step)
-
-
-# Just import :mod:`tb` to obtain :class:`TB` instance.
-sys.modules[__name__] = TB()
