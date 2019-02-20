@@ -45,7 +45,8 @@ class Teebee:
         "TensorBoard".
 
     """
-    __slots__ = ('epoch_length', 'writer', '_epoch', '_step', '_global_step')
+    __slots__ = (
+        'epoch_length', 'writer', '_epoch', '_step', '_global_step_increased')
 
     def __init__(self, epoch_length: int, path: str = None):
         self.epoch_length = epoch_length
@@ -57,47 +58,58 @@ class Teebee:
 
         self._epoch = -1
         self._step = -1
-        self._global_step = -1
+        self._global_step_increased = False
 
     def epoch(self, epoch: int):
-        """Sets the current epoch::
+        """Sets the current epoch and resets the step::
 
             for epoch in range(epochs):
                 tb.epoch(epoch)
                 ...
 
         Raises:
-            ValueError: If the given epoch is greater than or equals to the
-                previous epoch.
+            ValueError: If the given epoch is greater than the previous epoch.
 
         """
-        if self._epoch >= epoch:
+        if self._epoch > epoch:
             raise ValueError('already passed epoch: %d (old) >= %d (new)'
                              '' % (self._epoch, self.epoch))
+
         self._epoch = epoch
         self._step = -1
 
     def step(self, step: int) -> bool:
         """Sets the current step in an epoch and returns whether it increases
-        the global step. Don't log anything if it returns ``False``::
+        the global step.
 
             for step, inputs in enumerate(loader):
                 ...
                 if tb.step(step):
                     tb.scalar('loss', loss.item())
 
+        If you report something when it returns ``False``, multiple points will
+        be overlapped at the same global step::
+
+            # DO NOT DO LIKE IT. ALWAYS USE "if tb.step(step):".
+            tb.step(step)
+            tb.scalar('loss', loss.item())
+
         Raises:
-            ValueError: If the given step is greater than or equals to the
-                previous step.
+            ValueError: If the given step is greater than the previous step.
 
         """
-        if self._step >= step:
+        if self._step > step:
             raise ValueError('already passed step: %d (old) >= %d (new)'
                              '' % (self._step, self.step))
 
+        if self._step == step:
+            return self._global_step_increased
+
         prev_global_step = self.global_step
         self._step = step
-        return self.global_step != prev_global_step
+        self._global_step_increased = (self.global_step != prev_global_step)
+
+        return self._global_step_increased
 
     def global_step(self) -> int:
         """Calculates the current global step. 1k of global step means 1
