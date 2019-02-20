@@ -46,7 +46,12 @@ class Teebee:
 
     """
     __slots__ = (
-        'epoch_length', 'writer', '_epoch', '_step', '_global_step_increased')
+        'epoch_length',
+        'writer',
+        '_epoch',
+        '_step',
+        '_global_step_increased',
+    )
 
     def __init__(self, epoch_length: int, path: str = None):
         self.epoch_length = epoch_length
