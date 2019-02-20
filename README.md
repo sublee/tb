@@ -1,11 +1,11 @@
-# tb
+# teebee
 
 ```python
-from tb import TB
+from teebee import TensorBoard
 
-# Initialize tb with the per-epoch length and
-# the path where TensorBoard logs will be stored.
-tb = TB(len(loader), '/tmp/tb/run-20190219')
+# Initialize a TensorBoard object with the per-epoch length
+# and the path where TensorBoard logs will be stored.
+tb = TensorBoard(len(loader), '/tmp/tb/run-20190219')
 
 for epoch in range(1000):
     # Write logs per epoch.
