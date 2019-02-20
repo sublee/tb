@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='teebee',
-    version='0.1.0',
+    version='0.1.1',
     url='https://github.com/sublee/teebee',
     license='MIT',
     author='Heungsub Lee',
