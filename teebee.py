@@ -118,10 +118,15 @@ class Teebee:
             # When the step not changed, return the cached result.
             return self._global_step_increased
 
-        prev_global_step = self.global_step
-        self._step = step
-        self._global_step_increased = (self.global_step != prev_global_step)
+        if self._step == -1:
+            # First step() per epoch always returns True.
+            prev_global_step = -1
+        else:
+            prev_global_step = self.global_step()
 
+        self._step = step
+
+        self._global_step_increased = (self.global_step() != prev_global_step)
         return self._global_step_increased
 
     def global_step(self) -> int:
