@@ -31,9 +31,6 @@ __all__ = ['Teebee']
 __version__ = '0.1.1'
 
 
-logger = logging.getLogger(__name__)
-
-
 class Teebee:
     """A TensorBoard writer that tracks training epochs and steps. It reports
     1 epoch as 1k global steps in TensorBoard.
@@ -148,9 +145,15 @@ class Teebee:
 
         return int(epoch_f * 1000)
 
+    @property
+    def _l(self):
+        # Initialize the logger on-demand.
+        # https://fangpenlin.com/posts/2012/08/26/good-logging-practice-in-python/#do-not-get-logger-at-the-module-level-unless-disable_existing_loggers-is-false
+        return logging.getLogger(__name__)
+
     def scalar(self, name: str, value: float):
         """Writes a scalar log."""
         if self.writer is None:
-            logger.debug('[%d] %s: %.5f', self.global_step(), name, value)
+            self._l.debug('[%d] %s: %.5f', self.global_step(), name, value)
         else:
             self.writer.add_scalar(name, value, self.global_step())
