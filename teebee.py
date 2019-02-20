@@ -92,6 +92,8 @@ class Teebee:
                 if tb.step(step):
                     tb.scalar('loss', loss.item())
 
+        The interval of steps is ``[0, epoch_length-1)``.
+
         If you report something when it returns ``False``, multiple points will
         be overlapped at the same global step::
 
@@ -142,7 +144,7 @@ class Teebee:
 
         epoch_f = float(self._epoch)
         if self._step >= 0:
-            epoch_f += self._step / self.epoch_length
+            epoch_f += (self._step+1) / self.epoch_length
 
         return int(epoch_f * 1000)
 
