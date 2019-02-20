@@ -100,9 +100,16 @@ class Teebee:
             tb.scalar('loss', loss.item())
 
         Raises:
+            ValueError: If the given step is greater than or equals to the
+                epoch length.
             ValueError: If the given step is less than the previous step.
 
         """
+        if step >= self.epoch_length:
+            raise OverflowError('step is out of epoch length: '
+                                '%d (step) >= %d (epoch length)'
+                                '' % (step, self.epoch_length))
+
         if step < self._step:
             raise ValueError('already passed step: %d (new) < %d (old)'
                              '' % (step, self._step))
