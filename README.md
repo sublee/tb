@@ -1,5 +1,9 @@
 # teebee
 
+```bash
+$ pip install teebee
+```
+
 ```python
 from teebee import Teebee
 
