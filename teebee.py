@@ -40,7 +40,7 @@ class Writer:
     def scalar(self, name: str, value: float):
         """Writes a scalar log."""
         if self.writer is None:
-            print('[%d] %s: %.5f', self.step, name, value)
+            print('[%d] %s: %.5f' % (self.step, name, value))
         else:
             self.writer.add_scalar(name, value, self.step)
 
