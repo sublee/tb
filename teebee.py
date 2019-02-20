@@ -73,12 +73,12 @@ class Teebee:
                 ...
 
         Raises:
-            ValueError: If the given epoch is greater than the previous epoch.
+            ValueError: If the given epoch is less than the previous epoch.
 
         """
-        if self._epoch > epoch:
-            raise ValueError('already passed epoch: %d (old) >= %d (new)'
-                             '' % (self._epoch, self.epoch))
+        if epoch < self._epoch:
+            raise ValueError('already passed epoch: %d (new) < %d (old)'
+                             '' % (epoch, self._epoch))
 
         self._epoch = epoch
         self._step = -1
@@ -100,14 +100,15 @@ class Teebee:
             tb.scalar('loss', loss.item())
 
         Raises:
-            ValueError: If the given step is greater than the previous step.
+            ValueError: If the given step is less than the previous step.
 
         """
-        if self._step > step:
-            raise ValueError('already passed step: %d (old) >= %d (new)'
-                             '' % (self._step, self.step))
+        if step < self._step:
+            raise ValueError('already passed step: %d (new) < %d (old)'
+                             '' % (step, self._step))
 
         if self._step == step:
+            # When the step not changed, return the cached result.
             return self._global_step_increased
 
         prev_global_step = self.global_step
