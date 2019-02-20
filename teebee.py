@@ -152,8 +152,15 @@ class Teebee:
         return logging.getLogger(__name__)
 
     def scalar(self, name: str, value: float):
-        """Writes a scalar log."""
+        """Writes scalar data."""
         if self.writer is None:
             self._l.debug('[%d] %s: %.5f', self.global_step(), name, value)
         else:
             self.writer.add_scalar(name, value, self.global_step())
+
+    def text(self, name: str, text: str):
+        """Writes text data."""
+        if self.writer is None:
+            self._l.debug('[%d] %s:\n%s', self.global_step(), name, text)
+        else:
+            self.writer.add_text(name, text, self.global_step())
