@@ -28,7 +28,7 @@ import logging
 from tensorboardX import SummaryWriter
 
 __all__ = ['Teebee']
-__version__ = '0.1.1'
+__version__ = '0.1.2'
 
 
 class Teebee:
