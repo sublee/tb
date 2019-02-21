@@ -1,10 +1,10 @@
 """teebee: 1k steps for 1 epoch in TensorBoard"""
-import os
+from pathlib import Path
 
 from setuptools import setup
 
 about = {}  # type: ignore
-with open(os.path.join('teebee', '__about__.py')) as f:
+with (Path('teebee')/'__about__.py').open() as f:
     exec(f.read(), about)  # pylint: disable=W0122
 
 
