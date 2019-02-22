@@ -63,6 +63,11 @@ class Teebee:
         self._step = -1
         self._global_step_increased = False
 
+    def close(self):
+        """Closes the underlying tensorboardX writer."""
+        if self.writer is not None:
+            self.writer.close()
+
     def epoch(self, epoch: int):
         """Sets the current epoch and resets the step::
 

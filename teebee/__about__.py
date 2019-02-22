@@ -1,5 +1,5 @@
 """The package metadata."""
-__version__ = '0.1.3'
+__version__ = '0.1.4'
 __url__ = 'https://github.com/sublee/teebee'
 __license__ = 'MIT'
 __author__ = 'Heungsub Lee'
