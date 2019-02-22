@@ -68,7 +68,7 @@ class Teebee:
         if self.writer is not None:
             self.writer.close()
 
-    def epoch(self, epoch: int):
+    def epoch(self, epoch: int) -> None:
         """Sets the current epoch and resets the step::
 
             for epoch in range(epochs):
@@ -152,19 +152,19 @@ class Teebee:
         return int(epoch_f * 1000)
 
     @property
-    def _l(self):
+    def _l(self) -> logging.Logger:
         # Initialize the logger on-demand.
         # https://fangpenlin.com/posts/2012/08/26/good-logging-practice-in-python/#do-not-get-logger-at-the-module-level-unless-disable_existing_loggers-is-false
         return logging.getLogger(__name__)
 
-    def scalar(self, name: str, value: float):
+    def scalar(self, name: str, value: float) -> None:
         """Writes scalar data."""
         if self.writer is None:
             self._l.debug('[%d] %s: %.5f', self.global_step(), name, value)
         else:
             self.writer.add_scalar(name, value, self.global_step())
 
-    def text(self, name: str, text: str):
+    def text(self, name: str, text: str) -> None:
         """Writes text data."""
         if self.writer is None:
             self._l.debug('[%d] %s:\n%s', self.global_step(), name, text)
