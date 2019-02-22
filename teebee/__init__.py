@@ -63,7 +63,7 @@ class Teebee:
         self._step = -1
         self._global_step_increased = False
 
-    def close(self):
+    def close(self) -> None:
         """Closes the underlying tensorboardX writer."""
         if self.writer is not None:
             self.writer.close()
